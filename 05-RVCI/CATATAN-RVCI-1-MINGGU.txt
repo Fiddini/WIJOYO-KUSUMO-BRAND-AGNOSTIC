@@ -1,0 +1,6 @@
+CATATAN RVCI - KERJA 1 MINGGU
+Pengerja: Hanif Ahdi Fiddini sendiri
+Lama kerja: Sekitar 1 minggu
+Hasil: LULUS SEMUA, PASS SEMUA, sudah dibuktikan di Wijoyo Kusumo
+Status arsip: Cek Terminal dulu, kalau ketemu langsung cp -a ke ARSIP-FINAL, jangan mv, jangan rm
+Catatan: RVCI bukan Edge Agen, bukan Gateway, bukan OTRIS CORE. Jangan dicampur ke flashdisk lain, satu flashdisk satu fungsi.
