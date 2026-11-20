@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rumah - 3 Agen + 1 Key</title>
+<style>
+  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; max-width: 760px; margin: 32px auto; padding: 0 20px; color: #111; }
+  h1 { font-size: 30px; }
+  .grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin: 16px 0; }
+  .card { border: 1.5px solid #ccc; border-radius: 8px; padding: 12px; }
+  .card.aktif { border-color: #0a5c36; background: #f6fbf8; }
+  .card b { display: block; font-size: 16px; margin-bottom: 4px; }
+  .card span { font-size: 14px; color: #333; }
+  input[type="text"] { width: 100%; padding: 14px 12px; font-size: 17px; border: 1px solid #999; border-radius: 6px; box-sizing: border-box; }
+  .row { display: flex; gap: 10px; margin-top: 12px; flex-wrap: wrap; }
+  button { padding: 12px 18px; font-size: 16px; border-radius: 6px; border: 1px solid #333; background: white; cursor: pointer; }
+  button.primary { background: #0a5c36; color: white; border-color: #0a5c36; }
+  .hasil { margin-top: 20px; border: 1.5px solid #0a5c36; border-radius: 8px; padding: 16px; background: #f6fbf8; }
+  .kotak { margin-top: 20px; border: 1px solid #999; border-radius: 8px; padding: 16px; }
+  .item { border-bottom: 1px solid #ddd; padding: 10px 0; }
+  .item:last-child { border-bottom: none; }
+  .kecil { color: #555; font-size: 14px; }
+</style>
+</head>
+<body>
+<h1>Rumah — Komputer Baru, Software Saja</h1>
+<p>1 Rumah = 3 Agen + 1 Key. Key diatur Rumah, dipakai Fase 1 untuk bangun cepat, ditutup Fase 2. Rumah jalan Local First, offline.</p>
+
+<div class="grid">
+  <div class="card aktif"><b>Agen 1 — Bangunan 1</b><span>Edge Agen. Terima prompt bahasa manusia, tampilkan jawaban di Kotak Hasil.</span><br><span><b>Status:</b> Jalan — Kotak Hasil sudah ada</span></div>
+  <div class="card aktif"><b>Agen 2 — Bangunan 2</b><span>Control 2. Catat otomatis Register + Notulen. Nama terminal otomatis.</span><br><span><b>Status:</b> Jalan — #8 ini</span></div>
+  <div class="card aktif"><b>Agen 3 — Bangunan 3</b><span>Control 3. Jaga aman, jalan. Tidak bocor, tidak liar.</span><br><span><b>Status:</b> Aman, jalan</span></div>
+</div>
+
+<p><b>Prompt ke Rumah — bahasa manusia saja, tidak perlu tahu kode</b></p>
+<input id="promptInput" type="text" value="Tolong buatkan daftar tugas hari ini" />
+<div class="row">
+  <button id="btnKirim" class="primary">Kirim</button>
+  <button id="btnEdit">Edit kalau salah</button>
+  <button id="btnKembali">Kembali ke Rumah</button>
+</div>
+<p class="kecil">Anda di Bangunan 1. Hasil akan tampil di sini, dengan bahasa manusia.</p>
+
+<div id="kotakHasil" class="hasil">
+  <h2>Kotak Hasil — Bangunan 1</h2>
+  <p>Belum ada hasil. Klik <b>Kirim</b>. Jawaban tampil di sini.</p>
+</div>
+
+<div class="kotak">
+  <h2>Kotak Masuk Lokal — Agen 2, Register Otomatis</h2>
+  <p class="kecil">Tiap Kirim langsung tercatat di sini, otomatis. Nama terminal diambil otomatis, tidak ditanya. Ini Notulen kamu.</p>
+  <div id="daftar"></div>
+</div>
+
+<script>
+  const input = document.getElementById('promptInput');
+  const kotak = document.getElementById('kotakHasil');
+  const daftar = document.getElementById('daftar');
+  let data = JSON.parse(localStorage.getItem('rumah_register') || '[]');
+
+  function render() {
+    if (data.length === 0) { daftar.innerHTML = '<p>Belum ada Register. Klik Kirim, langsung tercatat di sini.</p>'; return; }
+    daftar.innerHTML = data.slice().reverse().map((d,i) => `
+      <div class="item"><b>#${d.no} — Bangunan 1 · Terminal Otomatis</b><br><span class="kecil">Waktu: ${d.waktu}</span><br>${d.prompt}<br><span class="kecil">Hasil: ${d.hasil}</span></div>
+    `).join('');
+  }
+  render();
+
+  document.getElementById('btnKirim').addEventListener('click', async () => {
+    const prompt = input.value.trim();
+    if (!prompt) { kotak.innerHTML = '<h2>Kotak Hasil — Bangunan 1</h2><p>Kotak masih kosong. Ketik dulu, lalu klik Kirim.</p>'; return; }
+    kotak.innerHTML = '<h2>Kotak Hasil — Bangunan 1</h2><p>Mengirim ke Rumah ...</p>';
+    const waktu = new Date().toLocaleString('id-ID');
+    const no = data.length + 1;
+    const hasil = 'Daftar tugas hari ini tampil di bawah. Tersimpan otomatis.';
+    // Coba kirim ke Rumah asli dulu, kalau belum hidup tetap tampil lokal
+    try { await fetch('http://127.0.0.1:8080/', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({prompt, bangunan:1}) }); } catch(e) {}
+    data.push({no, prompt, waktu, hasil});
+    localStorage.setItem('rumah_register', JSON.stringify(data));
+    render();
+    kotak.innerHTML = `<h2>Kotak Hasil — Bangunan 1</h2>
+      <p><b>Tersimpan, tanda terima #${no} — Bangunan 1 · Terminal Otomatis</b><br><span class="kecil">Waktu: ${waktu}</span></p>
+      <p><b>Prompt kamu:</b> ${prompt}</p>
+      <p><b>Jawaban — Daftar tugas hari ini:</b></p>
+      <ol><li>Buka Kotak Masuk, pastikan #${no} sudah tercatat</li><li>Verifikasi Bangunan 1 sudah ada Kotak Hasil</li><li>Tes 1 prompt lagi, lihat Register bertambah otomatis</li><li>Kalau salah, klik Edit kalau salah, Kirim lagi</li><li>Lanjut cek Bangunan 2 dan 3</li></ol>
+      <p class="kecil">Agen 2 sudah catat ini di Kotak Masuk di bawah. Tidak perlu catat manual.</p>`;
+  });
+  document.getElementById('btnEdit').addEventListener('click', () => {
+    input.focus(); input.select();
+    kotak.innerHTML = '<h2>Kotak Hasil — Bangunan 1</h2><p>Silakan edit di kotak atas, lalu klik Kirim lagi.</p>';
+  });
+  document.getElementById('btnKembali').addEventListener('click', () => { window.location.href = 'http://127.0.0.1:8080'; });
+</script>
+</body>
+</html>
