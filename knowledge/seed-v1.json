@@ -1,0 +1,17 @@
+[
+  {
+    "judul": "2026-11-20 - Cara Cek Network Failure RS A",
+    "kategori": "network",
+    "isi": "Cek kabel, cek ping 127.0.0.1, cek log, catat di Log Audit"
+  },
+  {
+    "judul": "2026-11-20 - Cara Cek Printer",
+    "kategori": "alat-alat",
+    "isi": "Cek status saja, tidak ubah setting, tidak kirim data ke internet, log semua"
+  },
+  {
+    "judul": "2026-11-20 - Aturan Paket Terverifikasi",
+    "kategori": "aturan",
+    "isi": "Paket harus ada kode + knowledge + tes + rollback + hash SHA256, harus lewat Arga, harus diputuskan Founder"
+  }
+]

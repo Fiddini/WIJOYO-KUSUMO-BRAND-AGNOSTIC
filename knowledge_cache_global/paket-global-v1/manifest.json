@@ -1,0 +1,15 @@
+{
+  "berkas": {
+    "ROLLBACK.md": "68d7701f372a38cd332ea50c76aa695563bb6f135808c0ffa2d3dbe1c3332f0e",
+    "knowledge/seed-v1.json": "cc47a4201044015fc09d6a5db1ef81624ba93996835c6518a547ba70d49e7ffb",
+    "rumah_fondasi.py": "088c12820b61586ddea5650d24c97d8141fb6cc51a9fa539f2beb39a71d6b42d",
+    "rumah_ui.html": "de04094decd71037f4ad4269da3bb26b1daa9a6e97e27c840df9a55c3eaf5979",
+    "uji_knowledge.py": "3bc6372aede74664e82ae377a34ce8f80c86b6252a7729b618d78a655366edd7"
+  },
+  "paket": "paket-global-v1",
+  "pembuat": "Founder",
+  "status": "TERVERIFIKASI",
+  "tanggal": "2026-11-20",
+  "trace_id": "RUMAH-20261120-PAKET-FIX-001",
+  "versi": 1
+}
